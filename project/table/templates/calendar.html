@@ -1,0 +1,41 @@
+{% load filters %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <table border="1">
+
+        <tr>
+            <td></td>
+            {% for day in days %}
+                <td>
+                    {{ day }}
+                </td>
+            {% endfor %}
+        </tr>
+
+        {% for group in groups %}
+            <tr>
+                <td>
+                    {{ group.groupName }}
+                </td>
+                {% for day in days %}
+                    <td>
+                        {% with group|get_duty_users:day as users %}
+                            {% for user in users %}
+                                <p>{{ user.userFullname }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+
+    </table>
+</body>
+</html>
