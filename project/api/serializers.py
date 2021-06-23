@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.fields import IntegerField, SerializerMethodField
+from rest_framework.fields import SerializerMethodField
 
 from api.models import Group, User, Month
 from api.services.create_object import create_user, create_group
@@ -55,13 +55,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['group', 'userFullname', 'userEmail', 'userPhone', 'userExt']
-        # exclude = ['group']
-
-
-class GetDutyManByGroupSerializer(serializers.ModelSerializer):
-    groupId = IntegerField()
-    day = IntegerField()
-
-    class Meta:
-        model = User
-        fields = '__all__'
