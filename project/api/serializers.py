@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import IntegerField, SerializerMethodField
 
 from api.models import Group, User, Month
+from api.services.create_object import create_user, create_group
 
 
 class MonthCreateSerializer(serializers.ModelSerializer):
@@ -20,7 +21,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         day_validated_data = validated_data.pop('dutyDays')
-        user = User.objects.create(**validated_data)
+        user = create_user(validated_data)
         day_set_serializer = self.fields['dutyDays']
         for day in day_validated_data:
             day['user'] = user
@@ -37,7 +38,7 @@ class GroupCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user_validated_data = validated_data.pop('usersDutyList')
-        group = Group.objects.create(**validated_data)
+        group = create_group(validated_data)
         user_set_serializer = self.fields['usersDutyList']
         for user in user_validated_data:
             user['group'] = group

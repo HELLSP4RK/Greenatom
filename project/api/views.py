@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.serializers import *
+from api.services.get_queryset import get_users_by_day, get_users_by_day_and_group
 
 
 class DataUploadView(APIView):
@@ -20,7 +21,7 @@ class DutyUsersListView(ListAPIView):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        users = User.objects.filter(dutyDays__day=self.kwargs['day'], dutyDays__isDuty=True)
+        day = self.kwargs['day']
         if 'groupId' in self.kwargs:
-            users = users.filter(group=self.kwargs['groupId'])
-        return users
+            return get_users_by_day_and_group(day, self.kwargs['groupId'])
+        return get_users_by_day(day)

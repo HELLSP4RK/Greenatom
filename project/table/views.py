@@ -1,11 +1,12 @@
 from django.shortcuts import render
 
-from api.models import Month, Group
+from table.services.get_object import get_days_list
+from table.services.get_queryset import get_groups
 
 
 def calendar(request):
-    days = set(Month.objects.values_list('day', flat=True))
-    groups = Group.objects.all().prefetch_related('usersDutyList', 'usersDutyList__dutyDays')
+    days = set(get_days_list())
+    groups = get_groups()
     context = {
         'title': 'Календарь',
         'days': days,
