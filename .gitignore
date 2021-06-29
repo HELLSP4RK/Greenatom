@@ -3,4 +3,5 @@
 .pgsql/
 .venv/
 
-project/**/migrations/
+project/*/migrations/*
+!project/*/migrations/__init__.py
